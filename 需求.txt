@@ -1,0 +1,46 @@
+//参考后台只保留列出来的
+https://hb.bigo30.xyz/ht.php/index/login
+用户：dev
+密码：123456
+
+后台功能菜单及需求说明
+一、钱包信息
+    前端点击“启动钱包” 时，记录的内容
+	
+二、用户管理
+    前端点击“启动钱包” 时，记录的内容
+	
+	
+三、黑名单管理
+    识别客户登陆IP，如果客户被加入黑名单，前端网页报404
+
+四、客服管理
+    1.会话管理
+    后台客服跟客户对话过程中，或者完成对话，有个 “一键清理”功能，点击后，前端客户的聊天窗口就没有任何聊天记录了
+    聊天窗有 “在线/下线” 状态
+    
+	2.聊天记录
+	3.客服代表
+	4.客服配置
+
+
+//前端
+https://hb.bigo6.xyz/index/user/index
+
+前端需求
+1、前端显示全部英文
+
+2、钱包启动页https://hb.bigo6.xyz/index/user/qianbao 。每个输入框只要输入内容完成自动提交到后台，后台可以在 “钱包信息” 位置及时看到
+
+
+//客服系统参考
+https://github.com/gytai/KeFu
+
+https://v3u.cn/a_id_158
+
+https://gitee.com/chatopera/cskefu
+
+https://gofly.sopans.com/index_cn
+
+
+http://www.weensoft.cn/download.html
