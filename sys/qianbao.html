@@ -266,18 +266,12 @@
             center: true
           }).then(function() {
             _this.sendAjax('/wallet_del?id=' + id,'DELETE',{},function(ret){
-              if(ret.code ==200){
                 _this.$message({
                   type: 'success',
                   message: '删除成功!'
                 });
                 _this.getTableList();
-              }else{
-                _this.$message({
-                    message: ret.msg,
-                    type: 'error'
-                });
-              }
+
             })
            
           }).catch(function() {});
@@ -287,20 +281,15 @@
           this.$refs[formName].validate(function(valid) {
             if (valid) {
               _this.sendAjax('/wallet_add?','post',_this.roleForm,function(ret){
-              if(ret.code ==200){
+
                 var text = _this.roleForm.id == '' ? '新增成功':'修改成功';
                 _this.$message({
                   type: 'success',
                   message: text
                 });
                 _this.getTableList();
-              }else{
-                _this.$message({
-                    message: ret.msg,
-                    type: 'error'
-                });
-              }
-            })
+                _this.roleDialog = false;
+              })
             } else {
               return false;
             }
@@ -325,16 +314,10 @@
           var _this=this;
          
           this.sendAjax('/wallet_all','get',this.formItem,function(ret){
-            if(ret.code ==200){
-              var data = ret.result;
-              _this.tableList = data.list;
-              _this.total = data.total || 0;
-            }else{
-              _this.$message({
-                  message: ret.msg,
-                  type: 'error'
-              });
-            }
+            console.log(ret)
+              _this.tableList = ret.list;
+              _this.total = ret.total || 0;
+
           })
         },
         sendAjax(url,method,params,callback){
