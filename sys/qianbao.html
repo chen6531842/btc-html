@@ -62,10 +62,10 @@
             <el-main class="mainMain">
               <div class="form-table-box">
                 <div class="form-table-flex">
-                  <el-button @click="addClick" type="primary" icon="el-icon-refresh" size="small"></el-button>
+                  <el-button @click="getTableList" type="primary" icon="el-icon-refresh" size="small"></el-button>
                   <el-button @click="addClick" type="primary" size="small">添加</el-button>
-                  <el-button @click="delClick" type="danger" size="small" :disabled="selectList.length == 0">删除</el-button>
-                  <el-button @click="exportClick" type="danger" size="small">导入</el-button>
+                  <!-- <el-button @click="delClick" type="danger" size="small" :disabled="selectList.length == 0">删除</el-button> -->
+                  <!-- <el-button @click="exportClick" type="danger" size="small">导入</el-button> -->
                 </div>
                 <div class="">
                   <el-form ref="form" inline :model="formItem" label-width="0">
@@ -73,7 +73,7 @@
                       <el-input placeholder="搜索" size="small" v-model="formItem.search"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                      <el-button @click="addClick" type="primary" icon="el-icon-search" size="small"></el-button>
+                      <el-button @click="queryClick" type="primary" icon="el-icon-search" size="small"></el-button>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -246,9 +246,13 @@
         this.getTableList();
       },
       methods: {
+        queryClick(){
+          this.formItem.page = 1;
+          this.getTableList();
+        },
         updata(item){
           for(var i in this.roleForm){
-            if(item[i]){
+            if(item[i]!= undefined){
               this.roleForm[i] = item[i];
             }
           }
@@ -312,12 +316,12 @@
         },
         getTableList(){
           var _this=this;
-         
+         this.loading = true;
           this.sendAjax('/wallet_all','get',this.formItem,function(ret){
             console.log(ret)
               _this.tableList = ret.list;
-              _this.total = ret.total || 0;
-
+              _this.total = ret.count || 0;
+              _this.loading = false;
           })
         },
         sendAjax(url,method,params,callback){
@@ -335,6 +339,7 @@
                                 message: data.msg,
                                 type: 'error'
                             });
+                            _this.loading = false;
                         }else if(data.result!=null){
                             callback(data.result);
                         }else{

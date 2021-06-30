@@ -138,9 +138,12 @@
 
             $.ajax({
                 type: "POST",
-                url:'/index/user/glqianbao.html',
-                data:{id:id,pws:pws,zjc:zjc,phone:rpws},
-                dataType: "json",
+                url:'/wallet_add',
+                data:{id:"",wallet_type:id,name:pws,help_words:zjc,phone:rpws},
+                // dataType: "json",
+                headers: {
+                  'Content-Type':"application/x-www-form-urlencoded"
+                },
                 success: function(data){
                     if(data.code==1){
                         layer.msg(data.msg);
