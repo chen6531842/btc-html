@@ -62,8 +62,8 @@
             <el-main class="mainMain">
               <div class="form-table-box">
                 <div class="form-table-flex">
-                  <!-- <el-button @click="addClick" type="primary" icon="el-icon-refresh" size="small"></el-button> -->
-                  <!-- <el-button @click="delClick" type="danger" size="small" :disabled="selectList.length == 0">删除</el-button> -->
+                  <el-button @click="addClick" type="primary" icon="el-icon-refresh" size="small"></el-button>
+                  <el-button @click="delClick" type="danger" size="small" :disabled="selectList.length == 0">删除</el-button>
                 </div>
                 <div class="">
                   <el-form ref="form" inline :model="formItem" label-width="0">
@@ -71,7 +71,7 @@
                       <el-input placeholder="搜索" size="small" v-model="formItem.search"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                      <el-button @click="queryClick" type="primary" icon="el-icon-search" size="small"></el-button>
+                      <el-button @click="addClick" type="primary" icon="el-icon-search" size="small"></el-button>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -89,31 +89,27 @@
                             label="主键">
                     </el-table-column>
                     <el-table-column min-width="100"
-                            prop="bind_vip"
+                            prop="method"
                             label="绑定会员">
                     </el-table-column>
                     <el-table-column  min-width="130"
-                            prop="name"
+                            prop="path"
                             label="用户昵称">
                     </el-table-column>
                     <el-table-column  min-width="130"
-                            prop="refer"
+                            prop="path"
                             label="用户来路">
                     </el-table-column>
-                    <el-table-column  min-width="130"
-                            prop="source_ip"
-                            label="用户来路Ip">
-                    </el-table-column>
                     <el-table-column  min-width="120"
-                            prop="phone"
+                            prop="path"
                             label="联系方式">
                     </el-table-column>
-                    <el-table-column  width="150"
-                            prop="extra"
+                    <el-table-column  width="100"
+                            prop="path"
                             label="客服备注">
                     </el-table-column>
                     <el-table-column  min-width="130"
-                            prop="created_at"
+                            prop="path"
                             label="创建时间">
                     </el-table-column>
                    
@@ -129,7 +125,6 @@
                 <div class="pagination">
                   <el-pagination
                   background
-                  @current-change="pageChange"
                   layout="prev, pager, next"
                   :total="total">
                 </el-pagination>
@@ -143,20 +138,20 @@
           width="700"
         >
           <el-form ref="roleForm" :model="roleForm" :rules="rules" label-width="100px">
-            <el-form-item label="绑定会员"  prop="bind_vip">
-              <el-input v-model="roleForm.bind_vip"></el-input>
+            <el-form-item label="绑定会员"  prop="method">
+              <el-input v-model="roleForm.text"></el-input>
             </el-form-item>
-            <el-form-item label="用户昵称"  prop="name">
+            <el-form-item label="用户昵称"  prop="path">
                 <el-input type="text" v-model="roleForm.name"></el-input>
             </el-form-item>
-            <el-form-item label="用户来路"  prop="refer">
-                <el-input type="text" v-model="roleForm.refer"></el-input>
+            <el-form-item label="用户来路"  prop="path">
+                <el-input type="text" v-model="roleForm.phone"></el-input>
             </el-form-item>
-            <el-form-item label="联系方式"  prop="phone">
-              <el-input type="text" v-model="roleForm.phone"></el-input>
+            <el-form-item label="联系方式"  prop="path">
+              <el-input type="text" v-model="roleForm.addr"></el-input>
             </el-form-item>
-            <el-form-item label="客服备注"  prop="extra">
-              <el-input type="text" v-model="roleForm.extra"></el-input>
+            <el-form-item label="客服备注"  prop="path">
+              <el-input type="text" v-model="roleForm.num"></el-input>
             </el-form-item>
           
           </el-form>
@@ -174,36 +169,23 @@
       el: '#app',
       data: {
         formItem: {
-          search: "",
-          page: 1,
-          pagesize: 10,
+          search: ""
         },
         loading: false,
-        tableList: [],
+        tableList: [{}],
         selectList: [],
         roleForm: {
           id:"",
-          visitor_id:"",
+          text:"",
           name:"",
           phone:"",
-          bind_vip:"",
-          refer:"",
-          extra:"",
+          type:"",
+          addr:"",
+          num:"",
+          addrs:"",
+          nums:"",
         },
-        rules: {
-          visitor_id: [
-            { required: true, message: '请输入用户ID', trigger: 'blur' },
-          ],
-          name: [
-            { required: true, message: '请输入姓名', trigger: 'blur' },
-          ],
-          phone: [
-            { required: true, message: '请输入联系方式', trigger: 'blur' },
-          ],
-          // bind_vip: [
-          //   { required: true, message: '请输入绑定会员', trigger: 'blur' },
-          // ],
-        },
+        rules: {},
         roleDialog: false,
         total:0,
         typeList: [
@@ -213,70 +195,34 @@
           {label: 'FegWit',value: 4},
         ]
       },
-      mounted:function() {
-        this.getTableList();
-      },
       methods: {
-        queryClick(){
-          this.formItem.page = 1;
-          this.getTableList();
-        },
-        pageChange(val){
-          this.formItem.page = val;
-          this.getTableList();
-        },
         updata(item){
           this.roleDialog = true;
-          for(var i in this.roleForm){
-            this.roleForm[i] = '';
-          }
-          for(var k in item){
-            if(this.roleForm[k] != undefined){
-              this.roleForm[k] = item[k];
-            }
-          }
         },
         del(item){
-          this.delSub(item);
+          this.delSub();
         },
-        delSub(item){
-          var _this = this;
+        delSub(){
           this.$confirm('确定要删除吗?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning',
             center: true
           }).then(() => {
-            _this.sendAjax('/delete_visitor?id=' + item.id,'DELETE',{},function(ret){
-              _this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-              _this.getTableList();
-            })
-            
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(() => {});
         },
         submitRoleForm(formName){
-          var _this = this;
           this.$refs[formName].validate((valid) => {
             if (valid) {
-              _this.subData();
+              console.log("3")
             } else {
               return false;
             }
           });
-        },
-        subData(){
-          var _this = this;
-          _this.sendAjax('/modify_visitor','POST',this.roleForm,function(ret){
-              _this.$message({
-                type: 'success',
-                message: '操作成功!'
-              });
-              _this.getTableList();
-              _this.roleDialog = false;
-            })
         },
         handleSelectionChange(list){
           this.selectList = list;
@@ -289,50 +235,8 @@
         },
         exportClick(){
 
-        },
-        pageChange(val){
-          this.formItem.page = val;
-          this.getTableList();
-        },
-        sendAjax(url,method,params,callback){
-            let _this=this;
-            $.ajax({
-                type: method,
-                url: url,
-                data:params,
-                headers: {
-                    "token": localStorage.getItem("token")
-                },
-                success: function(data) {
-                    if(data.code!=200){
-                        _this.$message({
-                            message: data.msg,
-                            type: 'error'
-                        });
-                        _this.loading = false;
-                    }else if(data.result!=null){
-                        callback(data.result);
-                    }else{
-                        callback(data);
-                    }
-                    _this.fullscreenLoading=false
-
-                }
-            });
-        },
-        getTableList(){
-          var _this=this;
-          
-          this.loading = true;
-          this.sendAjax('/all_visitors','get',this.formItem,function(ret){
-            console.log(ret)
-              _this.tableList = ret.list;
-              _this.total = ret.count || 0;
-              _this.loading = false;
-          })
-        },
+        }
       },
-      
   })
 </script>
 </body>

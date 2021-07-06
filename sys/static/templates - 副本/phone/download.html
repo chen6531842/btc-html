@@ -2,7 +2,7 @@
 <!-- saved from url=(0040)https://hb.bigo6.xyz/index/user/download -->
 <html style="font-size: 41.4px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>啟動中心</title>
+    <title>幫助中心</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/index.js"></script>
@@ -100,10 +100,11 @@
     <div class="my-box center-box p0">
         <div class="my-box center-box p0">
             <!-- nav -->
-            <!-- <div class="header">
+            <div class="header">
+                <!-- <a href="http://653257.com/index/index"><div class="back"></div></a> -->
                 <div>幫助中心(Help center)</div>
                 <div class="right-back pr20"></div>
-            </div> -->
+            </div>
             <div class="p40" style="padding-top: 2rem;">
                 <div class="my-nav p30">
                     <div class="item aa" style="">
@@ -169,7 +170,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="javascript:;" id="getKefu">
+                        <a href="http://182.61.20.122:8081/chatIndex?kefu_id=kefu2">
                             <div class="c-row c-row-between c-row-middle">
                                 <div class="c-row c-row-middle">
                                     <i class="icon icon8"></i>
@@ -198,46 +199,5 @@
         });
     </script> -->
 
-    <script type="text/javascript">
-        $(function(){
-          var kefu_id = '';
-            $.ajax({
-                  type: "get",
-                  url:'/all_kefulist',
-                  data:{},
-                  success: function(data){
-                      if(data.code==200){
-                          var list = data.result;
-                          var onlineList= [];
-                          for(var i in list){
-                            if(list[i].status == 'online'){
-                              onlineList.push(list[i]);
-                            }
-                          }
-                          if(onlineList.length == 1){
-                            kefu_id = onlineList[0].name;
-                          }else if(onlineList.length > 2){
-                            var index = getRandom(0,onlineList.length - 1);
-                            kefu_id = onlineList[index].name;
-                          }else if(onlineList.length == 0 &&list.length > 0 ){
-                            kefu_id = list[0].name
-                          }
-                      }else{
-                          layer.msg(data.msg);
-                      }
-                  }
-              });
-              
-            $("#getKefu").click(function(){
-              window.location.href = '/chatIndex?kefu_id=' + kefu_id
-            })
-        })
-      
-        function getRandom(start, end, fixed=0) {
-                  let differ = end - start
-                  let random = Math.random()
-                  return (start + differ * random).toFixed(fixed)
-      
-        }
-      </script>
+
 </div></body></html>

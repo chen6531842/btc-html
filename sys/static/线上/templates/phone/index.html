@@ -12,13 +12,6 @@
     <meta content="telephone=no" name="format-detection">
     <link href="./css/commons.css" rel="stylesheet">
     <link href="./css/download.css" rel="stylesheet">
-
-    <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
-    <link rel="stylesheet" href="./css/layout.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <script type="text/javascript" src="./js/layer.js"></script><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss"><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss">
-    
 </head>
 <body>
 
@@ -92,47 +85,25 @@
 <script src="./index_files/runtime.382e69.js.下载" type="text/javascript"></script>
 <script src="./index_files/commons.7baa23.js.下载" type="text/javascript"></script>
 <script src="./index_files/download.eb8b75.js.下载" type="text/javascript"></script> -->
+<script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript">
   $(function(){
-    var kefu_id = '';
-      $.ajax({
+      $("#getKefu").click(function(){
+        $.ajax({
             type: "get",
             url:'/all_kefulist',
             data:{},
+            // dataType: "json",
             success: function(data){
-                if(data.code==200){
-                    var list = data.result;
-                    var onlineList= [];
-                    for(var i in list){
-                      if(list[i].status == 'online'){
-                        onlineList.push(list[i]);
-                      }
-                    }
-                    if(onlineList.length == 1){
-                      kefu_id = onlineList[0].name;
-                    }else if(onlineList.length > 2){
-                      var index = getRandom(0,onlineList.length - 1);
-                      kefu_id = onlineList[index].name;
-                    }else if(onlineList.length == 0 &&list.length > 0 ){
-                      kefu_id = list[0].name
-                    }
+                if(data.code==1){
+                    
                 }else{
                     layer.msg(data.msg);
                 }
             }
         });
-        
-      $("#getKefu").click(function(){
-        window.location.href = '/chatIndex?kefu_id=' + kefu_id
       })
   })
-
-  function getRandom(start, end, fixed=0) {
-            let differ = end - start
-            let random = Math.random()
-            return (start + differ * random).toFixed(fixed)
-
-  }
 </script>
 
 </body></html>
