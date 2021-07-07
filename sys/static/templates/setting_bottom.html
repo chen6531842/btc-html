@@ -452,6 +452,7 @@
                     return;
                 }
                 this.avatarUrl = '/'+res.result.path;
+                this.kefuForm.avator = '/'+res.result.path;
             },
             beforeAvatarUpload(file) {
                 var isLt2M = file.size / 1024 / 1024 < 1;

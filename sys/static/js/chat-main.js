@@ -54,6 +54,9 @@ var app=new Vue({
         replyTitle:"",
         ipBlacks:[],
         sendDisabled:false,
+        remarksDialog:false,
+        remarksContent: '',
+        remarksVisitorId: "",
     },
     methods: {
         //跳转
@@ -472,6 +475,63 @@ var app=new Vue({
                 }
             });
         },
+        // 清理记录
+        clearRecord(visitorId){
+          let _this=this;
+          this.$confirm('确定要清理该网友的聊天记录吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            _this.sendAjax("/messages_clear","GET",{
+              visitorId: visitorId,
+            },function(result){
+              _this.$message({
+                type: 'success',
+                message: '清除成功!'
+              });
+              _this.msgList = [];
+            });
+            
+          }).catch(() => {});
+        },
+        // 拉黑
+        pullBlacklist(source_ip){
+          let _this=this;
+          this.$confirm('确定要将该网友加入黑名单吗?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            console.log(source_ip)
+            _this.addIpblack(source_ip);
+          }).catch(() => {});
+        },
+        // 备注
+        remarksClick(visitorId){
+          this.remarksContent = this.visitor.extra + '';
+          this.remarksVisitorId = visitorId;
+          this.remarksDialog = true;
+        },
+        // 备注提交 
+        remarksSub(){
+          var _this = this;
+          this.sendAjax("/set_visitor_extra","POST",{
+            extra: _this.remarksContent,
+            visitor_id: _this.remarksVisitorId
+          },function(result){
+            _this.$message({
+              type: 'success',
+              message: '备注成功!'
+            });
+            for(let i in _this.visitors){
+                if(_this.visitors[i].visitor_id == _this.remarksVisitorId){
+                    _this.visitors[i].extra = _this.remarksContent + '';
+                }
+            }
+            _this.remarksDialog = false;
+          });
+        },
         //处理tab切换
         handleTabClick(tab, event){
             let _this=this;
@@ -646,6 +706,7 @@ var app=new Vue({
                             message: data.msg,
                             type: 'success'
                         });
+                        _this.getIpblacks();
                     }
                 }
             });
@@ -817,32 +878,8 @@ var app=new Vue({
         //划词搜索
         selectText(){
             return false;
-            var _this=this;
-            $('body').click(function(){
-                try{
-                    var selecter = window.getSelection().toString();
-                    if (selecter != null && selecter.trim() != ""){
-                        _this.replySearch=selecter.trim();
-                        _this.searchReply();
-                    }else{
-                        _this.replySearch="";
-                    }
-                } catch (err){
-                    var selecter = document.selection.createRange();
-                    var s = selecter.text;
-                    if (s != null && s.trim() != ""){
-                        _this.replySearch=s.trim();
-                        _this.searchReply();
-                    }else{
-                        _this.replySearch="";
-                    }
-                }
-                var status=$('.faceBox').css("display");
-                if(status=="block"){
-                    $('.faceBox').hide();
-                }
-            });
         },
+        
         sendAjax(url,method,params,callback){
             let _this=this;
             $.ajax({

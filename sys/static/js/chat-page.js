@@ -22,6 +22,7 @@ new Vue({
         replys:[],
         noticeName:"",
         noticeAvatar:"",
+        blackShow: false
     },
     methods: {
         //初始化websocket
@@ -624,12 +625,23 @@ new Vue({
             $(".chatBox").append("<div class=\"chatTime\"><span>"+title+"</span></div>");
             this.scrollBottom();
         },
+        isBlack(call){
+          var _this = this
+          _this.sendAjax("/check_ip","GET",{},function(result){
+            if(result && result.length > 0){
+              this.blackShow = true;
+            }else{
+              call && call();
+            }
+          });
+        }
     },
     mounted:function() {
         document.addEventListener('paste', this.onPasteUpload)
         document.addEventListener('scroll',this.textareaBlur)
     },
     created: function () {
+      this.isBlack(()=>{
         this.init();
         this.getUserInfo();
         //加载历史记录
@@ -639,5 +651,7 @@ new Vue({
         //获取欢迎
         this.getNotice();
         this.getAutoReply();
+      })
+        
     }
 })

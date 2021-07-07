@@ -1,4 +1,21 @@
 {{template "header" }}
+<style>
+    .uploader-avatar{
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 20px;
+    }
+    .uploader-avatar-icon {
+        font-size: 16px;
+        color: #8c939d;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+    }
+</style>
 <div id="app" style="width:100%">
     <template>
         <el-container v-loading.fullscreen.lock="fullscreenLoading">
@@ -61,11 +78,21 @@
                     <el-input v-model="kefuForm.nickname"></el-input>
                 </el-form-item>
                 <el-form-item label="头像"  prop="avator">
-                    <el-select v-model="kefuForm.avator" placeholder="请选择头像">
+                    <!-- <el-select v-model="kefuForm.avator" placeholder="请选择头像">
                         <el-option :label="'头像'+item" :value="'/static/images/'+item+'.jpg'" v-for="item in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]" v-bind:key="item">
                             <el-avatar :size="30" :src="'/static/images/'+item+'.jpg'"></el-avatar>
                         </el-option>
-                    </el-select>
+                    </el-select> -->
+                    <el-avatar :size="50" :src="kefuForm.avator"></el-avatar>
+                    <el-upload
+                            class="uploader-avatar"
+                            action="/uploadimg"
+                            :show-file-list="false"
+                            name="imgfile"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <i class="el-icon-plus uploader-avatar-icon"></i>
+                    </el-upload>
                 </el-form-item>
                 <el-form-item label="角色"  prop="role_id">
                     <el-select v-model="kefuForm.role_id" placeholder="请选择角色">

@@ -60,7 +60,9 @@
                                             <el-avatar shape="square" v-bind:class="{'imgGray': item.status==0 }" :size="40" :src="item.avator"></el-avatar>
                                         </el-col>
                                         <el-col style="height:40px;overflow: hidden" :span="16" v-bind:class="{'imgGray': item.status==0 }">
-                                            <{item.name}>
+                                            <span v-if="item.extra && item.extra != ''"><{item.extra}></span>
+                                            <span v-else><{item.name}></span>
+                                            
                                         </el-col>
                                     </div>
                                 </el-row>
@@ -90,6 +92,9 @@
                             <el-button v-on:click="getMesssagesByVisitorId(visitor.visitor_id,true)" size="small" type="success" plain icon="el-icon-user">加载全部</el-button>
                             <el-button v-on:click="transKefu" size="small" type="success" plain icon="el-icon-position">转接</el-button>
                             <el-button v-on:click="closeVisitor(visitor.visitor_id)" size="small" type="success" plain icon="el-icon-close">结束</el-button>
+                            <el-button v-on:click="clearRecord(visitor.visitor_id)" size="small" type="success" plain>清理记录</el-button>
+                            <el-button v-on:click="pullBlacklist(visitor.source_ip)" size="small" type="success" plain>拉黑</el-button>
+                            <el-button v-on:click="remarksClick(visitor.visitor_id)" size="small" type="success" plain>备注</el-button>
                         </div>
                         <div class="chatBox">
                             <el-row :gutter="2" v-for="v in msgList" v-bind:class="{'chatBoxMe': v.is_kefu==true}">
@@ -298,11 +303,24 @@
             <el-input style="margin-bottom: 10px;" placeholder="关键词"  v-model="replyTitle"></el-input>
             <el-input placeholder="内容" type="textarea"  v-model="replyContent"></el-input>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="editReplyContent('yes')">保 存</el-button>
+                <el-button type="primary" @click="editReplyContent('yes')">保 存</el-button>
                 <el-button @click="editReplyContentDialog = false">取 消</el-button>
               </span>
         </el-dialog>
         <!--//回复内容-->
+
+        <el-dialog
+                title="备注内容"
+                :visible.sync="remarksDialog"
+                width="30%"
+                top="0"
+        >
+            <el-input placeholder="内容" type="textarea"  v-model="remarksContent"></el-input>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="remarksSub">保 存</el-button>
+                <el-button @click="remarksDialog = false">取 消</el-button>
+              </span>
+        </el-dialog>
     </template>
 </div>
 </body>
