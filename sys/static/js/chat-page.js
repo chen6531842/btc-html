@@ -627,13 +627,36 @@ new Vue({
         },
         isBlack(call){
           var _this = this
-          _this.sendAjax("/check_ip","GET",{},function(result){
-            if(result && result.length > 0){
-              this.blackShow = true;
-            }else{
-              call && call();
+        //   _this.sendAjax("/check_ip","GET",{},function(result){
+        //     if(result && result.length > 0){
+        //       this.blackShow = true;
+        //     }else{
+        //       call && call();
+        //     }
+        //   });
+
+          $.ajax({
+            type: "GET",
+            url: '/check_ip',
+            data:{},
+            error:function(res){
+                call && call();
+            },
+            success: function(data) {
+                if(data.code==200){
+                    var result = data.result;
+                    if(result == ''){
+                        call && call();
+                    }else if(result && result.ip){
+                        _this.blackShow = true;
+                    }else{
+                        call && call();
+                    }
+                }else{
+                    call && call();
+                }
             }
-          });
+        });
         }
     },
     mounted:function() {

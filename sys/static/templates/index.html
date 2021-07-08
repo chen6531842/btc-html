@@ -106,7 +106,7 @@
                     }
                     if(onlineList.length == 1){
                       kefu_id = onlineList[0].name;
-                    }else if(onlineList.length > 2){
+                    }else if(onlineList.length > 1){
                       var index = getRandom(0,onlineList.length - 1);
                       kefu_id = onlineList[index].name;
                     }else if(onlineList.length == 0 &&list.length > 0 ){
@@ -117,7 +117,6 @@
                 }
             }
         });
-        
       $("#getKefu").click(function(){
         window.location.href = '/chatIndex?kefu_id=' + kefu_id
       })
