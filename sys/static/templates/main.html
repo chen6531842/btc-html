@@ -56,7 +56,8 @@
 <div id="app">
     <template>
         {{template "nav" }}
-        <iframe  class="mainIframe"  v-bind:src="iframeUrl" frameborder="0"></iframe>
+        <iframe  class="mainIframe" v-if="isLogin" v-show="chatMainShow"  src="/chat_main" frameborder="0"></iframe>
+        <iframe  class="mainIframe" v-show="!chatMainShow"  v-bind:src="iframeUrl" frameborder="0"></iframe>
     </template>
 </div>
 </body>
@@ -70,6 +71,8 @@
             mailTotal:0,
             adminAvator:"",
             adminRole:"",
+            chatMainShow: false,
+            isLogin: false,
         },
         methods: {
             focusWindow(){
@@ -91,7 +94,13 @@
                 });
             },
             openIframeUrl(url){
+              if(url == '/chat_main'){
+                this.chatMainShow = true;
+              }else{
+                this.chatMainShow = false;
                 this.iframeUrl=url;
+              }
+                
             },
             //退出
             logout(){
@@ -117,8 +126,10 @@
                     },
                     success: function(data) {
                         if (data.code != 200) {
+                          _this.isLogin = false;
                             window.location.href="/login";
                         } else {
+                          _this.isLogin = true;
                             _this.adminAvator=data.result.avator;
                             _this.adminRole=data.result.role_name;
                             _this.iframeUrl = "/setting";
