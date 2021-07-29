@@ -807,11 +807,15 @@ var app=new Vue({
         getReplys(){
             var _this=this;
             this.sendAjax("/replys","get",{},function(result){
+                for(var i in result){
+                    result[i].visible = false;
+                }
                 _this.replys=result;
             });
         },
         //删除回复
         deleteReplyGroup(id){
+            console.log(id)
             var _this=this;
             this.sendAjax("/reply?id="+id,"delete",{},function(result){
                 _this.getReplys();

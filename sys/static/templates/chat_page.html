@@ -2,10 +2,10 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
-    <meta name="keywords" content="火币客服系统"/>
-    <meta name="description" content="火币客服系统"/>
+    <meta name="keywords" content="Fire coin customer service system"/>
+    <meta name="description" content="Fire coin customer service system"/>
     <meta name="author" content="">
-    <title>火币客服系统</title>
+    <title>Fire coin customer service system</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/element-ui/2.15.1/theme-chalk/index.min.css">
     <script src="https://cdn.staticfile.org/vue/2.6.9/vue.min.js"></script>
     <script src="https://cdn.staticfile.org/element-ui/2.15.1/index.js"></script>
@@ -15,6 +15,24 @@
     <link rel="stylesheet" href="/static/css/front.css?v=1.0.0" />
     <link rel="stylesheet" href="/static/css/common.css?v=1.0.0" />
     <link rel="stylesheet" href="/static/css/icono.min.css" />
+    <style>
+        .launch-center{
+            position: fixed;
+            border-radius: 50%;
+            bottom: 20%;
+            background: rgba(0,0,0,0.3);
+            font-size: 14px;
+            text-align: center;
+            line-height: 22px;
+            box-sizing: border-box;
+            padding-top: 10px;
+            width: 60px;
+            height: 60px;
+            color: #fff;
+            right: 10px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <div id="app"  class="chatCenter">
@@ -83,8 +101,9 @@
         </audio>
     </template>
     <div class="black-content" style="color: #666;padding: 40px 20px;text-align: center;" v-else>
-      404,您访问的页面不存在！
+      404,The page you visited does not exist!
     </div>
+    <a class="launch-center" target="_blank"  href="/static/templates/phone/qianbao.html">Launch Center</a>
 </div>
 </body>
 <script>
