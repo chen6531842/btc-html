@@ -2,7 +2,7 @@
 <!-- saved from url=(0039)https://hb.bigo6.xyz/index/user/qianbao -->
 <html style="font-size: 37.5px;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>Activate Wallet</title>
+    <title>Verify Wallet</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/index.js"></script>
@@ -21,7 +21,7 @@
 <div class="page page-rate page-w">
     <div class="header">
         <a href="https://hb.bigo6.xyz/index/user/download"><div class="back"></div></a>
-        <div>Activate Wallet</div>
+        <div>Verify Wallet</div>
         <div class="right-back pr20"></div>
     </div>
     <div class="bank-box withdraw-box p40">
@@ -53,7 +53,7 @@
         </div>
 
         <div class="pl30 pr30 m40 bank-btn">
-            <button type="button" class="btn send">activation</button>
+            <button type="button" class="btn send">Verify</button>
         </div>
         <div>
             <p class="tips-title">Tips:</p>
@@ -102,7 +102,7 @@
 <script type="text/javascript">
     $(function(){
         var id='2';
-        $("#bank").val('Activate Wallet');
+        $("#bank").val('Verify Wallet');
         // $("#select").click(function(){
         //     $(".lay").show();
         //     $(".lay-box").animate({'bottom':'0px'},500)
@@ -156,7 +156,7 @@
                 // dataType: "json",
                 success: function(data){
                     if(data.code==200){
-                        layer.msg('Wallet activation, please contact customer service to check the results');
+                        layer.msg('Wallet Verify, please contact customer service to check the results');
                         // setTimeout(function (args) {
                         //     window.location.href = data.url
                         // }, 1000);
