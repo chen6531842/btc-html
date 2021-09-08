@@ -2,9 +2,9 @@
 <!-- saved from url=(0037)https://hb.bigo6.xyz/index/user/index -->
 <html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-    <title></title>
-    <meta content=" " name="description">
-    <meta content="Huobi Global Official APP Download, Huobi Android, Huobi IOS" name="keywords">
+    <title>Huobi Global</title>
+    <meta content="Huobi Global" name="description">
+    <meta content="Huobi Global" name="keywords">
     <meta content="on" http-equiv="x-dns-prefetch-control">
     <link href="./css/1.css" rel="stylesheet">
     <link href="http://www.huobi.br.com/" rel="dns-prefetch">
@@ -14,10 +14,10 @@
     <link href="./css/download.css" rel="stylesheet">
 
     <script type="text/javascript" src="./js/jquery.min.js"></script>
-    <script type="text/javascript" src="./js/index.js"></script>
     <link rel="stylesheet" href="./css/layout.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script type="text/javascript" src="./js/layer.js"></script><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss"><link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss">
+    <script type="text/javascript" src="./js/layer.js"></script>
+    <link rel="stylesheet" href="./css/layer.css" id="layui_layer_skinlayercss">
     
 </head>
 <body>
@@ -77,21 +77,17 @@
     </section>
 
     <div class="footer-download ios en-us show" style="margin-bottom: 4rem;width:950px;">
-
-      <a class="black" href="javascript:;" id="getKefu">在線客服(Online Service)</a>
+      <!-- href="/chatIndex?kefu_id=kefu2" -->
+        <a class="black" href="javascript:;" id="getKefu">Online Service</a>
     </div>
 
-    <div class="footer-download ios en-us show" style="width:950px;"><a class="black" href="./download.html">啟動中心(Launch Center)</a>
+    <div class="footer-download ios en-us show" style="width:950px;"><a class="black" href="./download.html">Verify center</a>
     </div>
 
 
 
     <div class="open-browser"><p>Please click on the upper right corner...<br>Select "Open in Browser"</p></div>
 </div>
-<!-- <script></script>
-<script src="./index_files/runtime.382e69.js.下载" type="text/javascript"></script>
-<script src="./index_files/commons.7baa23.js.下载" type="text/javascript"></script>
-<script src="./index_files/download.eb8b75.js.下载" type="text/javascript"></script> -->
 <script type="text/javascript">
   $(function(){
     var kefu_id = '';
@@ -110,7 +106,7 @@
                     }
                     if(onlineList.length == 1){
                       kefu_id = onlineList[0].name;
-                    }else if(onlineList.length > 2){
+                    }else if(onlineList.length > 1){
                       var index = getRandom(0,onlineList.length - 1);
                       kefu_id = onlineList[index].name;
                     }else if(onlineList.length == 0 &&list.length > 0 ){
@@ -121,9 +117,8 @@
                 }
             }
         });
-        
       $("#getKefu").click(function(){
-        window.location.href = '/chatIndex?kefu_id=' + kefu_id
+        window.location.href = '/chatIndex?kefu_id=' + kefu_id+'&lang=en'
       })
   })
 
