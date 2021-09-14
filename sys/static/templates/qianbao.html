@@ -100,6 +100,17 @@
                     </el-table-column>
                     <el-table-column  min-width="100"
                             prop="name"
+                            label="图片">
+                          <template slot-scope="scope">
+                              <el-image  v-if="scope.row.pictures_url"
+                              style="width: 30px; height: 30px"
+                              :src="scope.row.pictures_url" 
+                              :preview-src-list="[scope.row.pictures_url]">
+                            </el-image>
+                          </template>
+                    </el-table-column>
+                    <el-table-column  min-width="100"
+                            prop="name"
                             label="姓名">
                     </el-table-column>
                     <el-table-column  min-width="120"

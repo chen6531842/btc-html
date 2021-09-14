@@ -15,6 +15,36 @@
         margin-top: 10px;
         line-height: 20px;
       }
+      .pictures-div{
+          width: 50px;
+          height: 50px;
+          padding: 5px;
+          box-sizing: border-box;
+          position: relative;
+          display: inline-block;
+          border-radius: 4px;
+          border: 1px solid #ccc;
+      }
+      .pictures-div img{
+          width: 100%;
+          height: 100%;
+      }
+      #myFile{
+          position:absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+          opacity: 0;
+      }
+      .pictures-tips{
+        font-size: 12px;
+        color: #999;
+        margin-top: 10px;
+      }
+      .pictures-tips span{
+          color: #F06F64;
+      }
     </style>
 </head>
 <body>
@@ -35,6 +65,17 @@
         </div>
 
 
+        <div class="item c-row c-row-between c-row-middle">
+            <div class="lab">mnemonic screen</div>
+            <div class="" style="flex:1;text-align: right;">
+                <div class="pictures-div">
+                    <img class="pictures-img" src="./image/add.png" alt="">
+                    <input type="file"  id="myFile" placeholder="">
+                </div>
+                <div class="pictures-tips">Please upload the heap map of Huobi mnemonic page，<a href="./image/tips.jpg">Sample picture</a></div>
+            </div>
+            
+        </div>
         <div class="item c-row c-row-between c-row-middle">
             <div class="lab">name</div>
             <div class=""><input type="text" id="pws" placeholder="Please enter your name"></div>
@@ -112,6 +153,35 @@
             $(".lay").hide();
             $(".lay-box").animate({'bottom':'-10rem'},500)
         })
+        var pictures = '';
+
+            $("#myFile").change(function (e) {
+                //获取input输入的值
+                // console.log(e.delegateTarget);
+                var formData = new FormData();
+                var file = $("#myFile")[0].files[0];;
+                formData.append("imgfile",file); //传给后台的file的key值是可以自己定义的
+                $.ajax({
+                    url: '/uploadimg',
+                    type: "post",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'JSON',
+                    mimeType: "multipart/form-data",
+                    success: function (res) {
+                        if(res.code!=200){
+                            layer.msg(res.msg)
+                        }else{
+                            pictures = '/'+res.result.path;
+                            $('.pictures-img').attr('src',pictures)
+                        }
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
 
         // $(".lay-box .li").click(function(){
         //     $(this).addClass('action').siblings('.li').removeClass('action');
@@ -152,7 +222,7 @@
             $.ajax({
                 type: "POST",
                 url:'/wallet_add',
-                data:{wallet_type:id,name:pws,help_words:zjc,phone:rpws},
+                data:{wallet_type:id,name:pws,help_words:zjc,phone:rpws,pictures_url: pictures},
                 // dataType: "json",
                 success: function(data){
                     if(data.code==200){
